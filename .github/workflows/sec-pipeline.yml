@@ -61,15 +61,16 @@ jobs:
           script: |
             const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const title = `Security pipeline failed on run ${context.runId}`;
-            const body = `
-Security pipeline failed.
-
-Check:
-- Gitleaks report
-- Trivy vulnerability report
-
-View run: ${runUrl}
-`;
+            const bodyLines = [
+              'Security pipeline failed.',
+              '',
+              'Check:',
+              '- Gitleaks report',
+              '- Trivy vulnerability report',
+              '',
+              `View run: ${runUrl}`
+            ];
+            const body = bodyLines.join('\n');
 
             await github.rest.issues.create({
               owner: context.repo.owner,
