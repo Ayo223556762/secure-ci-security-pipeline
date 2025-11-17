@@ -72,3 +72,12 @@ jobs:
               title,
               body
             });
+
+      - name: Send Discord alert when pipeline fails
+        if: failure()
+        run: |
+          run_url="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          echo "{\"content\": \"🚨 Security pipeline failed for ${GITHUB_REPOSITORY}. Check run: ${run_url}\"}" > payload.json
+          curl -H "Content-Type: application/json" -d @payload.json "${DISCORD_WEBHOOK_URL}"
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
