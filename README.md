@@ -1,173 +1,138 @@
-📦 Secure CI/CD Pipeline with Automated Security Scanning and Alerting
+# 📦 Secure CI/CD Pipeline with Automated Security Scanning and Alerting
 
-A full CI slash CD pipeline that performs automated security scans on every code push, blocks risky changes, alerts on failures, and automatically builds and deploys container images to AWS ECR. This project demonstrates real DevSecOps, Security Engineering, and SOC automation skills using modern tooling.
+A full CI/CD pipeline that performs automated security scans on every code push, blocks risky changes, alerts on failures, and automatically builds and deploys container images to AWS ECR. This project demonstrates real DevSecOps, Security Engineering, and SOC automation skills using modern tooling.
 
-📌 Key Features
-🔁 Continuous Integration (CI)
+---
 
-Every push to the main branch triggers:
+## 📌 Key Features
 
-Repository checkout
+### 🔁 Continuous Integration (CI)
 
-Docker image build
+Every push triggers:
 
-Trivy vulnerability scanning
+- Repository checkout  
+- Docker image build  
+- Trivy vulnerability scanning  
+- Gitleaks secret detection  
+- Custom regex based secret detection  
+- Structured CI logs  
+- GitHub Issue creation on failures  
+- Discord webhook alerts
 
-Gitleaks secret detection
+---
 
-Custom regex secret detection
+### 🚀 Continuous Deployment (CD)
 
-Structured CI logs
+When all security checks pass:
 
-GitHub Issue creation on failures
+- GitHub Actions authenticates securely to AWS  
+- Builds a production ready Docker image  
+- Pushes the image to AWS ECR  
+- Produces a deploy ready artifact for ECS or other cloud targets
 
-Discord webhook alerts
+This completes the CI/CD workflow: detect, validate, build, and deliver.
 
-🚀 Continuous Deployment (CD)
+---
 
-When the security job passes:
+## 🛠️ Tools and Technologies
 
-GitHub Actions automatically authenticates to AWS
+- GitHub Actions (CI/CD automation)  
+- Docker  
+- AWS ECR (container registry)  
+- Python Flask  
+- Trivy (vulnerability scanning)  
+- Gitleaks (secret detection)  
+- Discord Webhooks (alert notifications)  
+- Regex based detection patterns  
+- YAML pipelines
 
-Builds a production Docker image
+---
 
-Pushes it to AWS ECR using secure GitHub Secrets
+## 📂 Project Structure
 
-Produces a deploy ready image for ECS or any cloud target
-
-This demonstrates the full CI slash CD workflow: detect, build, validate, and deliver.
-
-🛠️ Tools and Technologies
-
-GitHub Actions (CI/CD automation)
-
-Docker
-
-AWS ECR (container registry)
-
-Python Flask app
-
-Gitleaks (secret detection)
-
-Trivy (vulnerability scanning)
-
-Discord Webhooks (incident alerting)
-
-Regex based detection logic
-
-YAML pipelines
-
-📂 Project Structure
 secure-ci-security-pipeline/
 │
 ├── app/
-│   ├── app.py
-│   └── requirements.txt
+│ ├── app.py
+│ └── requirements.txt
 │
 ├── Dockerfile
 │
 └── .github/workflows/
-    └── sec-pipeline.yml
+└── sec-pipeline.yml
 
-🔎 How the Pipeline Works
-1. Developer Pushes Code
+---
 
-Any commit to main triggers the security pipeline.
+## 🔎 How the Pipeline Works
 
-2. Security Scanning
+### 1. Developer Pushes Code  
+Triggers the `sec-pipeline.yml` GitHub Actions workflow.
 
-Gitleaks scans the repo for secrets
+### 2. Security Scanning
 
-Trivy scans the container for vulnerabilities
+- Gitleaks checks for hardcoded secrets  
+- Trivy scans the container for vulnerabilities  
+- Custom regex detects AWS key patterns  
 
-Custom regex check ensures no AWS keys or credential patterns appear
+If any scan fails, deployment is blocked.
 
-If any scan fails, the pipeline blocks further execution.
+---
 
-3. Incident Handling (on failure)
+### 3. Incident Handling (Failure Case)
 
-If a secret or vulnerability is detected:
+- ❌ Pipeline fails  
+- ❗ GitHub Issue is automatically created  
+- 🚨 Discord receives an alert  
+- 🔍 Simulates real SOC / engineering response workflow  
 
-❌ Pipeline fails
+---
 
-❗ A GitHub Issue is automatically created
+### 4. Continuous Deployment (Success Case)
 
-🚨 Discord webhook sends a real time alert
+If security checks pass:
 
-🔍 SOC style triage begins
+- GitHub Actions logs into AWS  
+- Builds Docker image  
+- Pushes `latest` tag to AWS ECR  
+- Artifact becomes deploy ready for ECS Fargate
 
-This simulates an enterprise style detection and response workflow.
+---
 
-4. Continuous Deployment (on success)
+## 📸 Recommended Screenshots to Add
 
-If and only if security passes:
+- Successful CI/CD run  
+- Failed CI run  
+- Discord alert screenshot  
+- Auto created GitHub Issue  
+- Trivy scan results  
+- Gitleaks scan results  
+- VS Code project structure  
+- AWS ECR image listing
 
-GitHub Actions logs into AWS
+---
 
-Builds the Docker image
+## 💡 Why This Project Matters
 
-Tags it as latest
+This project showcases hands on capability in:
 
-Pushes the image to AWS ECR
+- DevSecOps  
+- Security automation  
+- CI/CD pipeline design  
+- Vulnerability management  
+- Secret detection  
+- Cloud ready container delivery  
+- SOC alerting workflows  
 
-This creates a deploy ready artifact for future automated ECS deployments.
+Recruiters and engineers can clearly see:
 
-📸 Recommended Screenshots to Add to GitHub
+- Automated guardrails  
+- Secure code validation  
+- Failure alerting and incident flow  
+- Practical cloud deployment integration
 
-Add these for maximum recruiter and engineer visibility:
+---
 
-Successful CI/CD run (green checks)
+## ▶️ Run Locally
 
-Failed CI run (red X)
-
-Discord pipeline alert screenshot
-
-Auto created GitHub Issue
-
-Trivy scan results
-
-Gitleaks scan results
-
-VS Code project structure
-
-ECR image listing in AWS
-
-These visuals show professionalism and real world security workflow understanding.
-
-💡 Why This Project Matters
-
-This repository demonstrates real hands on capability in:
-
-DevSecOps engineering
-
-Security automation
-
-CI/CD pipeline design
-
-Vulnerability scanning
-
-Secret detection
-
-Cloud deployment pipelines
-
-SOC alerting workflows
-
-GitHub Actions engineering
-
-Technical recruiters, hiring managers, and engineers can clearly see:
-
-Automated guardrails
-
-Secure code validation
-
-Proper failure handling
-
-Cloud delivery pipelines
-
-Alerting and incident visibility
-
-This is the exact type of project expected for Security Engineer, DevSecOps Engineer, and SOC roles that require tooling, automation, and cloud understanding.
-
-▶️ Run Locally
 docker build -t secure-ci-app .
 docker run -p 5000:5000 secure-ci-app
